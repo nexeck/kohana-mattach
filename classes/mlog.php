@@ -1,4 +1,6 @@
-<?php defined('SYSPATH') OR die('No direct script access.');
+<?php
+defined('SYSPATH') OR die('No direct script access.');
+
 /**
  * @author     Marcel Beck
  * @date       10.02.2011
@@ -19,12 +21,13 @@ class MLog extends MAttach_Core
    *
    *     MLog::render($user);
    *
-   * @param   ORM Model
-   * @return  void
+   * @param ORM Model
+   * @param ORM/String Model to Save
+   * @return voide
    */
-  static function render(ORM $model, $smodel = NULL, $view = NULL, $limit = 100)
+  static function render(ORM $model, $smodel = NULL, $view = NULL, $limit = NULL, $offset = NULL, $orderby = NULL)
   {
-    return static::factory($model, 'mlog')->render_items('mlog/view', $limit);
+    return static::factory($model, 'mlog')->render_items('mlog/view', $limit, $offset, $orderby);
   }
 
   /**
@@ -35,9 +38,9 @@ class MLog extends MAttach_Core
    * @param   ORM Model
    * @return  void
    */
-  static function get(ORM $model, $smodel = NULL, $limit = 100)
+  static function get(ORM $model, $smodel = NULL, $limit = NULL, $offset = NULL, $orderby = NULL)
   {
-    return static::factory($model, 'mlog')->get_logs($limit);
+    return static::factory($model, 'mlog')->get_items($limit, $offset, $orderby);
   }
 
   /**

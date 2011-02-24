@@ -1,4 +1,6 @@
-<?php defined('SYSPATH') OR die('No direct script access.');
+<?php
+defined('SYSPATH') OR die('No direct script access.');
+
 /**
  * @author     Marcel Beck
  * @date       16.02.2011
@@ -11,7 +13,7 @@ abstract class MAttach_Core
   /**
    * Factory Class
    *
-   * MAttach::factory($user,$log);
+   * MAttach::factory($user, $log);
    *
    * @param ORM Model
    * @param ORM/String Model to Save
@@ -26,42 +28,46 @@ abstract class MAttach_Core
    * Gets all Model Items attached to $model.
    * Rendered into View.
    *
-   *     MAttach::render($user,$log);
+   *     MAttach::render($user, $log, $view);
    *
    * @param ORM Model
    * @param ORM/String Model to Save
    * @param View/String to render
+   * @param INT Limit
+   * @param INT Offset
+   * @param String OrderBy (ASC/DESC)
    * @return  void
    */
-  static function render(ORM $model, $smodel, $view, $limit = 100)
+  static function render(ORM $model, $smodel, $view, $limit = NULL, $offset = NULL, $orderby = NULL)
   {
-    return static::factory($model, $smodel)->render_items($view, $limit);
+    return static::factory($model, $smodel)->render_items($view, $limit, $offset, $orderby);
   }
 
   /**
    * Gets all Model Items attached to $model.
    *
-   *     MAttach::get($user,$log);
+   *     MAttach::get($user, $log);
    *
    * @param ORM Model
    * @param ORM/String Model to Save
+   * @param INT Limit
+   * @param INT Offset
+   * @param String OrderBy (ASC/DESC)
    * @return  void
    */
-  static function get(ORM $model, $smodel, $limit = 100)
+  static function get(ORM $model, $smodel, $limit = NULL, $offset = NULL, $orderby = NULL)
   {
-    return static::factory($model, $smodel)->get_items($limit);
+    return static::factory($model, $smodel)->get_items($limit, $offset, $orderby);
   }
 
   /**
    * Adds a new Model.
    *
-   *     MAttach::add($user,$log,$additional_data);
+   *     MAttach::add($user, $log, $additional_data);
    *
    * @param ORM Model
    * @param ORM/String Model to Save
-   * @param string Status
-   * @param string Type
-   * @param string message
+   * @param Array Additional Data
    * @return  void
    */
   static function add(ORM $model, $smodel, array $additional_data = array())
@@ -118,25 +124,36 @@ abstract class MAttach_Core
     }
   }
 
-  public function render_items($view, $limit)
+  public function render_items($view, $limit = NULL, $offset = NULL, $orderby = NULL)
   {
     if (!($view instanceof View))
     {
       $view = View::factory($view);
     }
-    $view->items = $this->get_items($limit);
+    $view->items = $this->get_items($limit, $offset, $orderby);
     return $view;
   }
 
-  public function get_items($limit)
+  public function get_items($limit = NULL, $offset = NULL, $orderby = NULL)
   {
-    return $this->model
-      ->order_by('created', 'DESC')
-      ->limit($limit)
-      ->offset(0)
-      ->where('model_id', '=', $this->model->model_id)
-      ->where('model_name', '=', $this->model->model_name)
-      ->find_all();
+
+    $items = $this->model
+        ->order_by('created', $orderby)
+        ->where('model_id', '=', $this->model->model_id)
+        ->where('model_name', '=', $this->model->model_name);
+
+    if (Valid::digit($limit))
+    {
+      $items->limit($limit);
+    }
+    if (Valid::digit($offset))
+    {
+      $items->offset($offset);
+    }
+
+    $items = $items->find_all();
+
+    return $items;
   }
 
   public function set_additional_data(array $additional_data)
