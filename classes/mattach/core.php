@@ -2,10 +2,11 @@
 defined('SYSPATH') OR die('No direct script access.');
 
 /**
+ * @package MAttach
+ * @category Base
  * @author     Marcel Beck
- * @date       16.02.2011
- * @time       00:49:50
  * @copyright  (c) 2011 Marcel Beck
+ * @license MIT
  * */
 abstract class MAttach_Core
 {

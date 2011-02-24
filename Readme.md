@@ -39,4 +39,4 @@ Same as:
 ## Render Log
 
 Get only the last 5 Logging entries
-  MLog::render($this->user, NULL, NULL, 5);
+  MLog::render($this->user, NULL, NULL, 5, 0, DESC);
