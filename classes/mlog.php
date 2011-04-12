@@ -55,7 +55,7 @@ class MLog extends MAttach_Core
    * @param string message
    * @return  void
    */
-  static function log(ORM $model, $status, $type, $message)
+  static function log(ORM $model, $category, $status, $type, $subject, $body = '')
   {
     $user_id = '';
     if (auth::instance()->logged_in())
@@ -64,9 +64,11 @@ class MLog extends MAttach_Core
     }
 
     $additional_data = array(
+      'category' => $category,
       'status' => $status,
       'type' => $type,
-      'message' => $message,
+      'subject' => $subject,
+      'body' => $body,
       'user_id' => $user_id,
       'client_ip' => Request::$client_ip,
     );

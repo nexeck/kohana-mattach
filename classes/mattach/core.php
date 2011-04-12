@@ -121,7 +121,7 @@ abstract class MAttach_Core
     }
     else
     {
-      throw 'WTF?';
+      throw new Exception('WTF?');
     }
   }
 

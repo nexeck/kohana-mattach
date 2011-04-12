@@ -11,8 +11,8 @@ class Model_MLog extends ORM
 
 	protected $_created_column = array('column' => 'created', 'format' => TRUE);
 
-  protected $_table_name = 'logs';
+    protected $_table_name = 'logs';
 	protected $_primary_key = 'id';
-	protected $_primary_val = 'message';
+	protected $_primary_val = 'subject';
 
 }
