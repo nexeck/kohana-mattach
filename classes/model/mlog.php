@@ -14,6 +14,6 @@ class Model_MLog extends ORM {
 
 	protected $_primary_key = 'id';
 
-	protected $_primary_key_value = 'subject';
+	protected $_primary_val = 'subject';
 
 }
