@@ -98,7 +98,7 @@ abstract class MAttach_Core
       try
       {
         $this->model = $smodel;
-        $this->model->model_id = $model->id;
+        $this->model->model_id = $model->pk();
         $this->model->model_name = $model->object_name();
       }
       catch (Exception $e)
@@ -111,7 +111,7 @@ abstract class MAttach_Core
       try
       {
         $this->model = ORM::factory($smodel);
-        $this->model->model_id = $model->id;
+        $this->model->model_id = $model->pk();
         $this->model->model_name = $model->object_name();
       }
       catch (Exception $e)
