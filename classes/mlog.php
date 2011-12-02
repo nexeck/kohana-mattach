@@ -60,7 +60,7 @@ class MLog extends MAttach_Core
     $user_id = '';
     if (auth::instance()->logged_in())
     {
-      $user_id = auth::instance()->get_user()->id;
+      $user_id = auth::instance()->get_user()->pk();
     }
 
     $additional_data = array(
